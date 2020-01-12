@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
     id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    username: { type: DataTypes.STRING, allowNull: false },
+    username: { type: DataTypes.STRING, allowNull: false, unique:true },
     salt: { type: DataTypes.STRING, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false }
   }, {});
@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
     if (!user.password || !user.changed('password')) return user
 
     user.salt = this.getRandomSalt()
-    user.password = await User.getEncryptedPassword(user.password, user.salt)
+    user.password = await User.encryptPassword(user.password, user.salt)
   }
 
   User.getRandomSalt = function (bytes = 16) {

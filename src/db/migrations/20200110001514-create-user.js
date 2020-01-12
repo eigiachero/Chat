@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.UUIDV4
+        type: Sequelize.UUID
       },
       firstName: {
         type: Sequelize.STRING
@@ -16,7 +16,8 @@ module.exports = {
       },
       username: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       salt: {
         type: Sequelize.STRING,
