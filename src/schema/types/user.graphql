@@ -1,8 +1,8 @@
-type Mutation {
-  createUser(
+type User {
+    id: ID!
     firstName: String
     lastName: String
     username: String!
+    salt: String!
     password: String!
-  ): User!
 }
