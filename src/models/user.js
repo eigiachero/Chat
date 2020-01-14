@@ -1,15 +1,35 @@
 import crypto from 'crypto'
-'use strict';
 
 export default (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    id: { type: DataTypes.UUID, allowNull: false, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    username: { type: DataTypes.STRING, allowNull: false, unique:true },
-    salt: { type: DataTypes.STRING, allowNull: false },
-    password: { type: DataTypes.STRING, allowNull: false }
-  }, {});
+  const User = sequelize.define('user', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      primaryKey: true
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    salt: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  }, {})
 
   // Instance methods
   User.prototype.passwordMatches = function (value) {
@@ -36,5 +56,5 @@ export default (sequelize, DataTypes) => {
   User.beforeCreate(User.hashPasswordHook.bind(User))
   User.beforeUpdate(User.hashPasswordHook.bind(User))
 
-  return User;
-};
+  return User
+}
