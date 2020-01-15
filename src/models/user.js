@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
     },
     salt: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     password: {
       type: DataTypes.STRING,

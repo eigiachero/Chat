@@ -5,4 +5,7 @@ type Mutation {
     username: String!
     password: String!
   ): User!
+  deleteUser(
+    id: ID
+  ): Int!
 }
