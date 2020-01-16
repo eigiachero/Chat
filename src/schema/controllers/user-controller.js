@@ -1,7 +1,6 @@
 import db from '../../models'
 
-export function createUser (args) {
-  const data = args.input
+export const createUser = ({ input: data }) => {
   return db.user.create({
     firstName: data.firstName,
     lastName: data.lastName,
@@ -10,7 +9,7 @@ export function createUser (args) {
   })
 }
 
-export function deleteUser (args) {
+export const deleteUser = (args) => {
   return db.user.destroy({
     where: {
       id: args.id
