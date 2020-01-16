@@ -1,4 +1,4 @@
-import user from '../controllers/user-controller'
+import * as user from '../controllers/user-controller'
 
 export default {
   Query: {
@@ -6,7 +6,7 @@ export default {
     user: (parent, { id }, { db }) => db.user.findByPk(id)
   },
   Mutation: {
-    createUser: (parent, args, { db }) => user.createUser(args),
-    deleteUser: (parent, args, { db }) => user.deleteUser(args)
+    createUser: (parent, args) => user.createUser(args),
+    deleteUser: (parent, args) => user.deleteUser(args)
   }
 }
