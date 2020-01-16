@@ -2,11 +2,12 @@ import db from '../../models'
 
 export default {
   createUser: function createUser (args) {
+    const data = args.input
     return db.user.create({
-      firstName: args.firstName,
-      lastName: args.lastName,
-      username: args.username,
-      password: args.password
+      firstName: data.firstName,
+      lastName: data.lastName,
+      username: data.username,
+      password: data.password
     })
   },
   deleteUser: function deleteUser (args) {
