@@ -1,4 +1,4 @@
-import * as user from '../controllers/user-controller'
+import * as user from '../../controllers/graphql/user-controller'
 
 export default {
   Query: {
