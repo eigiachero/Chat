@@ -1,11 +1,13 @@
-import db from '../../models'
+export const getAllUsers = (_, args, { models }) => models.user.findAll()
 
-export const createUser = ({ input }) => {
-  return db.user.create(input)
+export const getUserById = (_, { id }, { models }) => models.user.findByPk(id)
+
+export const createUser = (_, { input }, { models }) => {
+  return models.user.create(input)
 }
 
-export const deleteUser = (args) => {
-  return db.user.destroy({
-    where: args
+export const deleteUser = (_, id, { models }) => {
+  return models.user.destroy({
+    where: id
   })
 }
