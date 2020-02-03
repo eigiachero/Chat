@@ -46,6 +46,10 @@ export default (sequelize, DataTypes) => {
     user.password = await User.encryptPassword(user.password, user.salt)
   }
 
+  User.hashValidateHook = function (user) {
+    if (!user.salt) user.salt = this.getRandomSalt()
+  }
+
   User.getRandomSalt = function (bytes = 16) {
     return crypto.randomBytes(bytes).toString('hex')
   }
@@ -55,6 +59,7 @@ export default (sequelize, DataTypes) => {
   }
 
   // hooks
+  User.beforeValidate(User.hashValidateHook.bind(User))
   User.beforeCreate(User.hashPasswordHook.bind(User))
   User.beforeUpdate(User.hashPasswordHook.bind(User))
 
