@@ -6,6 +6,7 @@ export default {
     user: user.getUserById
   },
   Mutation: {
+    signup: user.signup,
     createUser: user.createUser,
     deleteUser: user.deleteUser
   }
