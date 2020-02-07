@@ -5,7 +5,7 @@ export const getAllUsers = (_, args, { models }) => models.user.findAll()
 export const getUserById = (_, { id }, { models }) => models.user.findByPk(id)
 
 export const getUserByUsername = (_, username, { models }) => {
-  return models.user.findOne({where: username })
+  return models.user.findOne({ where: username })
 }
 export const createUser = (_, { input }, { models }) => {
   return models.user.create(input)
@@ -18,12 +18,12 @@ export const deleteUser = (_, id, { models }) => {
 }
 
 export const signup = async (_, { data }, { models, secret }) => {
-  const userSearch = await getUserByUsername(_, { username: data.username }, { models } )
-  if(!!userSearch){
+  const userSearch = await getUserByUsername(_, { username: data.username }, { models })
+  if (userSearch) {
     return {
       user: null,
       jwt: null,
-      authError: 'User already exists' 
+      authError: 'User already exists'
     }
   }
   const newUser = await models.user.create(data)
