@@ -21,6 +21,11 @@ input SignupInput {
   password: String!
 }
 
+input SigninInput {
+  username: String!
+  password: String!
+}
+
 type AuthenticationResult {
   user: User
   jwt: String
@@ -33,6 +38,7 @@ extend type Query {
 
 extend type Mutation {
   signup(data: SignupInput!): AuthenticationResult!
+  signin(data: SigninInput!): AuthenticationResult!
   createUser(input: UserCreationInput): User!
   deleteUser(id: ID): Int!
 }

@@ -23,3 +23,17 @@ export const signup = async (_, { data: user }, { models, secret }) => {
     jwt: token
   }
 }
+
+export const signin = async (_, { data: user }, { models, secret }) => {
+  try {
+    const userSearch = await models.user.findByUsername(user.username)
+    const token = jwt.sign({ sub: userSearch.id }, secret, { expiresIn: '10d' })
+
+    return {
+      user: userSearch,
+      jwt: token
+    }
+  } catch (error) {
+    return error
+  }
+}
