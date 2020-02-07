@@ -4,9 +4,6 @@ export const getAllUsers = (_, args, { models }) => models.user.findAll()
 
 export const getUserById = (_, { id }, { models }) => models.user.findByPk(id)
 
-export const getUserByUsername = (_, username, { models }) => {
-  return models.user.findOne({ where: username })
-}
 export const createUser = (_, { input }, { models }) => {
   return models.user.create(input)
 }
@@ -17,20 +14,16 @@ export const deleteUser = (_, id, { models }) => {
   })
 }
 
-export const signup = async (_, { data }, { models, secret }) => {
-  const userSearch = await getUserByUsername(_, { username: data.username }, { models })
-  if (userSearch) {
+export const signup = async (_, { data: user }, { models, secret }) => {
+  try {
+    const newUser = await models.user.create(user)
+    const token = jwt.sign({ sub: newUser.id }, secret, { expiresIn: '10d' })
+
     return {
-      user: null,
-      jwt: null,
-      authError: 'User already exists'
+      user: newUser,
+      jwt: token
     }
-  }
-  const newUser = await models.user.create(data)
-  const token = jwt.sign({ sub: newUser.id }, String(secret), { expiresIn: '10d' })
-  return {
-    user: newUser,
-    jwt: token,
-    authError: null
+  } catch (error) {
+    return error
   }
 }

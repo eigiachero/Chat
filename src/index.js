@@ -15,17 +15,17 @@ const port = process.env.PORT || 3001
 const opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 opts.secretOrKey = process.env.JWT_SECRET || 'secret'
-console.log(opts.secretOrKey)
+
 passport.use(new JwtStrategy(opts, function (jwtPayload, done) {
   models.user.findOne({ id: jwtPayload.sub }, function (err, user) {
     if (err) {
       return done(err, false)
     }
+
     if (user) {
       return done(null, user)
     } else {
       return done(null, false)
-      // or you could create a new account
     }
   })
 }))

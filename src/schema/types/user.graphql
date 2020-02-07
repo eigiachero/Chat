@@ -24,7 +24,6 @@ input SignupInput {
 type AuthenticationResult {
   user: User
   jwt: String
-  authError: String
 }
 
 extend type Query {
