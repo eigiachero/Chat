@@ -27,6 +27,11 @@ export const signup = async (_, { data: user }, { models, secret }) => {
 export const signin = async (_, { data: user }, { models, secret }) => {
   try {
     const userSearch = await models.user.findByUsername(user.username)
+
+    if (!userSearch) {
+      return new Error('User not found')
+    }
+
     const token = jwt.sign({ sub: userSearch.id }, secret, { expiresIn: '10d' })
 
     return {
