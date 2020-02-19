@@ -15,8 +15,8 @@ input UserCreationInput {
 }
 
 input SignupInput {
-  firstname: String!
-  lastname: String!
+  firstName: String!
+  lastName: String!
   username: String!
   password: String!
 }
@@ -32,6 +32,7 @@ type AuthenticationResult {
 }
 
 extend type Query {
+  currentUser: User
   users: [User!]!
   user(id: ID!): User
 }
