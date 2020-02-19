@@ -24,21 +24,26 @@ export const signup = async (_, { data: user }, { models, secret }) => {
   }
 }
 
-export const signin = async (_, { data: user }, { models, secret }) => {
-  try {
-    const userSearch = await models.user.findByUsername(user.username)
+const getValidatedUserFrom = async (models, userData) => {
+  const validUser = await models.user.findByUsername(userData.username)
 
-    if (!userSearch) {
-      return new Error('User not found')
-    }
+  if (!validUser) {
+    throw Error('User not found')
+  }
 
-    const token = jwt.sign({ sub: userSearch.id }, secret, { expiresIn: '10d' })
+  if (!validUser.passwordMatches(userData.password)) {
+    throw Error('User not found')
+  }
 
-    return {
-      user: userSearch,
-      jwt: token
-    }
-  } catch (error) {
-    return error
+  return validUser
+}
+
+export const signin = (_, { data: userData }, { models, secret }) => {
+  const user = getValidatedUserFrom(models, userData)
+  const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '10d' })
+
+  return {
+    user: user,
+    jwt: token
   }
 }
