@@ -15,15 +15,11 @@ export const deleteUser = (_, id, { models }) => {
 }
 
 export const signup = async (_, { data: user }, { models, secret }) => {
-  try {
-    const newUser = await models.user.create(user)
-    const token = jwt.sign({ sub: newUser.id }, secret, { expiresIn: '10d' })
+  const newUser = await models.user.create(user)
+  const token = jwt.sign({ sub: newUser.id }, secret, { expiresIn: '10d' })
 
-    return {
-      user: newUser,
-      jwt: token
-    }
-  } catch (error) {
-    return error
+  return {
+    user: newUser,
+    jwt: token
   }
 }
