@@ -14,12 +14,25 @@ input UserCreationInput {
   password: String!
 }
 
+input SignupInput {
+  firstName: String!
+  lastName: String!
+  username: String!
+  password: String!
+}
+
+type AuthenticationResult {
+  user: User
+  jwt: String
+}
+
 extend type Query {
   users: [User!]!
   user(id: ID!): User
 }
 
 extend type Mutation {
+  signup(data: SignupInput!): AuthenticationResult!
   createUser(input: UserCreationInput): User!
   deleteUser(id: ID): Int!
 }

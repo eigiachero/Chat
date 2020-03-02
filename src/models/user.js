@@ -58,6 +58,8 @@ export default (sequelize, DataTypes) => {
     return crypto.scryptSync(plainPassword, salt, 64).toString('hex')
   }
 
+  User.findByUsername = (username) => User.findOne({ where: { username } })
+
   // hooks
   User.beforeValidate(User.hashValidateHook.bind(User))
   User.beforeCreate(User.hashPasswordHook.bind(User))
