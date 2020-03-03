@@ -60,6 +60,20 @@ export default (sequelize, DataTypes) => {
 
   User.findByUsername = (username) => User.findOne({ where: { username } })
 
+  User.signin = async (user) => {
+    const validUser = await User.findByUsername(user.username)
+
+    if (!validUser) {
+      throw Error('User not found')
+    }
+
+    if (!validUser.passwordMatches(user.password)) {
+      throw Error('User not found')
+    }
+
+    return validUser
+  }
+
   // hooks
   User.beforeValidate(User.hashValidateHook.bind(User))
   User.beforeCreate(User.hashPasswordHook.bind(User))

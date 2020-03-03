@@ -24,22 +24,8 @@ export const signup = async (_, { data: user }, { models, secret }) => {
   }
 }
 
-const getValidatedUserFrom = async (models, userData) => {
-  const validUser = await models.user.findByUsername(userData.username)
-
-  if (!validUser) {
-    throw Error('User not found')
-  }
-
-  if (!validUser.passwordMatches(userData.password)) {
-    throw Error('User not found')
-  }
-
-  return validUser
-}
-
-export const signin = (_, { data: userData }, { models, secret }) => {
-  const user = getValidatedUserFrom(models, userData)
+export const signin = async (_, { data: userData }, { models, secret }) => {
+  const user = await models.user.signin(userData)
   const token = jwt.sign({ sub: user.id }, secret, { expiresIn: '10d' })
 
   return {
