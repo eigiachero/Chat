@@ -15,8 +15,13 @@ input UserCreationInput {
 }
 
 input SignupInput {
-  firstName: String!
-  lastName: String!
+  firstname: String!
+  lastname: String!
+  username: String!
+  password: String!
+}
+
+input SigninInput {
   username: String!
   password: String!
 }
@@ -33,6 +38,7 @@ extend type Query {
 
 extend type Mutation {
   signup(data: SignupInput!): AuthenticationResult!
+  signin(data: SigninInput!): AuthenticationResult!
   createUser(input: UserCreationInput): User!
   deleteUser(id: ID): Int!
 }

@@ -7,6 +7,7 @@ export default {
   },
   Mutation: {
     signup: user.signup,
+    signin: user.signin,
     createUser: user.createUser,
     deleteUser: user.deleteUser
   }
