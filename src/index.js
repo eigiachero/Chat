@@ -16,9 +16,9 @@ const opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 opts.secretOrKey = process.env.JWT_SECRET || 'secret'
 
-passport.use(new JwtStrategy(opts,async function (jwtPayload, done) {
-  const user = await models.user.findOne({where: { id: jwtPayload.sub }}) 
-  
+passport.use(new JwtStrategy(opts, async function (jwtPayload, done) {
+  const user = await models.user.findOne({ where: { id: jwtPayload.sub } })
+
   return done(null, user)
 }))
 
@@ -56,5 +56,3 @@ httpServer.listen({ port }, () => {
     `Subscriptions ready at ws://localhost:${port}${server.subscriptionsPath}`
   )
 })
-
-

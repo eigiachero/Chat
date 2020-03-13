@@ -14,9 +14,7 @@ export const deleteUser = (_, id, { models }) => {
   })
 }
 
-export const currentUser = (_, id, { user }) => {
-  return user
-}
+export const currentUser = (_, id, { user }) => user
 
 export const signup = async (_, { data: user }, { models, secret }) => {
   const newUser = await models.user.create(user)
@@ -37,4 +35,3 @@ export const signin = async (_, { data: userData }, { models, secret }) => {
     jwt: token
   }
 }
-
