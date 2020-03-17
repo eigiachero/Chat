@@ -16,25 +16,29 @@ const opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 opts.secretOrKey = process.env.JWT_SECRET || 'secret'
 
-passport.use(new JwtStrategy(opts, function (jwtPayload, done) {
-  models.user.findOne({ id: jwtPayload.sub }, function (err, user) {
-    if (err) {
-      return done(err, false)
-    }
+passport.use(new JwtStrategy(opts, async function (jwtPayload, done) {
+  const user = await models.user.findOne({ where: { id: jwtPayload.sub } })
 
-    if (user) {
-      return done(null, user)
-    } else {
-      return done(null, false)
-    }
-  })
+  return done(null, user)
 }))
 
 const app = express()
 
+passport.initialize()
+
+app.use('/graphql', (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (user) {
+      req.user = user
+    }
+
+    next()
+  })(req, res, next)
+})
+
 const server = new ApolloServer({
   ...schema,
-  context: { models, secret: opts.secretOrKey },
+  context: ({ req }) => ({ models, secret: opts.secretOrKey, user: req.user }),
   instrospection: true,
   playground: true,
   tracing: true
